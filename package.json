@@ -1,17 +1,13 @@
 {
-  "name": "es6-boilerplate",
-  "title": "An ES6 Boilerplate",
-  "description": "My personal ES6 Boilerplate built with babel and webpack.",
+  "name": "santex-test",
+  "title": "Santex Test",
+  "description": "",
   "url": "URL",
-  "author": "Vijay Dubb",
-  "copyright": "2013",
-  "version": "1.1.0",
+  "author": "",
+  "copyright": "",
+  "version": "0.0.0",
   "license": "ISC",
   "main": "",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/VD39/es6-boilerplate.git"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config=webpack.prod.config.js",
