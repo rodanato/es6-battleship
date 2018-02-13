@@ -1,6 +1,6 @@
 import './styles/main.scss';
 
-const rows = ['A', 'B', 'C', 'D', 'F', 'G', 'H', 'I', 'J'];
+const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 const columns = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 let availablePositions = [];
 
@@ -104,8 +104,7 @@ const InitModule = (() => {
     easy.addEventListener('click', (event) => counter = modes.easy);
     medium.addEventListener('click', (event) => counter = modes.medium);
     hard.addEventListener('click', (event) => counter = modes.hard);
-
-    };
+  };
 
   let listenToShots = () => {
 
@@ -116,6 +115,7 @@ const InitModule = (() => {
         if (counter === 0) {
           alert('game over, you lost');
         } else {
+          console.log(counter);
           let column = event.target.dataset.column;
           let row = event.target.parentElement.dataset.row;
           let position = row + ',' + column;
@@ -176,8 +176,8 @@ const InitModule = (() => {
   };
 
 
-  let shipHasBeenShinked = () => {
-    return ships.some(ship => ship.size === ship.hitCount);
+  let shipHasBeenShinked = (position) => {
+    return ships.some(ship => ship.size === ship.hitCount && ship.position.includes(position));
   };
 
   let saveShipPosition = (ship) => {
