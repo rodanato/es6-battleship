@@ -6,7 +6,9 @@
   <link href="./assets/css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <div class="config" id="config">
+  <div id="layer" class="config-layer"></div>
+
+  <div class="config-layer config" id="config">
     <p>
       Please choose an option
     </p>
@@ -17,7 +19,35 @@
   </div>
 
   <main id="battleship">
-    <table class="grid"
+    <table class="table-columns" border="1">
+      <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>10</td>
+      </tr>
+    </table>
+
+    <table class="table">
+      <tr><td>A</td></tr>
+      <tr><td>B</td></tr>
+      <tr><td>C</td></tr>
+      <tr><td>D</td></tr>
+      <tr><td>E</td></tr>
+      <tr><td>F</td></tr>
+      <tr><td>G</td></tr>
+      <tr><td>H</td></tr>
+      <tr><td>I</td></tr>
+      <tr><td>J</td></tr>
+    </table>
+
+    <table class="grid table"
            border="1">
       <tr data-row="A">
         <td data-column="1"></td>

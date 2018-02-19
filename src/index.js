@@ -1,17 +1,17 @@
 import './styles/main.scss';
 
-const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-const columns = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-let availablePositions = [];
-
 const modes = {
   easy  : Infinity,
   medium: 100,
   hard  : 50
 };
+const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+const columns = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const alignments = ['horizontal', 'vertical'];
 
+let availablePositions = [];
+let missedShots = [];
 let counter = 0;
-
 let ships = [
   {
     size: 4,
@@ -76,14 +76,16 @@ let ships = [
 ];
 
 const InitModule = (() => {
-  const board = document.getElementById('battleship');
-  const blocks = board.getElementsByTagName('td');
+  const board  = document.getElementsByClassName('grid')[0];
+  const configLayer   = document.getElementsByClassName('config-layer');
+  const easy   = document.getElementById('easy');
+  const medium = document.getElementById('medium');
+  const hard   = document.getElementById('hard');
 
   let init = () => {
-    listenToUserConfig();
+    addListeners();
     setAvailablePositions();
     setShipsRandomly();
-    listenToShots();
   };
 
   let setAvailablePositions = () => {
@@ -94,48 +96,43 @@ const InitModule = (() => {
     }
   };
 
-  let getRandomNumber = () => Math.floor((Math.random() * 9));
+  let getRandomNumber = (max) => Math.floor((Math.random() * (max - 1)));
 
-  let listenToUserConfig = () => {
-    const easy = document.getElementById('easy');
-    const medium = document.getElementById('medium');
-    const hard = document.getElementById('hard');
-
-    easy.addEventListener('click', (event) => counter = modes.easy);
-    medium.addEventListener('click', (event) => counter = modes.medium);
-    hard.addEventListener('click', (event) => counter = modes.hard);
+  let addListeners = () => {
+    easy.addEventListener('click', () => hideConfig.call(null, modes.easy));
+    medium.addEventListener('click', () => hideConfig.call(null, modes.medium));
+    hard.addEventListener('click', () => hideConfig.call(null, modes.hard));
+    board.addEventListener('click', (event) => shotAction.call(null, event));
   };
 
-  let listenToShots = () => {
+  let hideConfig = (mode) => {
+    counter = mode;
+    configLayer[0].classList.add('hidden');
+    configLayer[1].classList.add('hidden');
+  };
 
-    for (let i = 0; i < blocks.length; i++) {
-      blocks[i].addEventListener('click', (event) => {
-        counter--;
+  let shotAction = () => {
+    counter--;
 
-        if (counter === 0) {
-          alert('game over, you lost');
-        } else {
-          console.log(counter);
-          let column = event.target.dataset.column;
-          let row = event.target.parentElement.dataset.row;
-          let position = row + ',' + column;
+    if (counter === 0) {
+      alert('game over, you lost');
+    } else {
+      let e = event;
+      let column = e.target.dataset.column;
+      let row = e.target.parentElement.dataset.row;
+      let position = row + ',' + column;
 
-          let hitSomeone = lookIfHitSomeone(position);
+      if (hitSomeone(position)) {
+        saveHitOnShip(position);
+        e.srcElement.classList.add('hit');
+        if (shipHasBeenSinked(position)) alert('ship sinked');
+        if (allShipsHaveBeenRemoved()) alert('game over, you won');
+      } else {
+        if (missedShots.includes(position)) counter++;
 
-          if (hitSomeone) {
-            saveHitOnShip(position);
-
-            if (shipHasBeenShinked(position)) {
-              event.srcElement.classList.add('hit');
-              alert('ship shinked')
-            } else {
-              event.srcElement.classList.add('hit');
-            }
-
-            if (allShipsHaveBeenRemoved()) alert('game over, you won');
-          }
-        }
-      });
+        missedShots.push(position);
+        e.srcElement.classList.add('missed');
+      }
     }
   };
 
@@ -143,21 +140,36 @@ const InitModule = (() => {
     return ships.every(ship => ship.size === ship.hitCount);
   };
 
-  let lookIfHitSomeone = (position) => {
+  let hitSomeone = (position) => {
     return !availablePositions.includes(position);
   };
 
-  let lookIfAllPositionsAreAvailable = (fullPosition) => {
-    const separator = fullPosition.indexOf(':');
-    const column = fullPosition.slice(0, 1);
-    const start = fullPosition.slice(separator-1, separator);
-    const end = fullPosition.slice(separator+3, fullPosition.length);
-
+  let lookIfAllPositionsAreAvailable = (fullPosition, randomAlignment) => {
+    const separator   = fullPosition.indexOf(':');
+    const rowStart    = fullPosition.slice(0, 1);
+    const rowEnd      = fullPosition.slice(separator+1, separator+2);
+    const columnStart = fullPosition.slice(separator-1, separator);
+    const columnEnd   = fullPosition.slice(separator+3, fullPosition.length);
     let positionsList = [];
 
-    for (let i = start; i <= end; i++) {
-      if (availablePositions.includes(column + ',' + i)) {
-        positionsList.push(column + ',' + i)
+    if (randomAlignment === 'horizontal') {
+      for (let i = columnStart; i <= columnEnd; i++) {
+        if (availablePositions.includes(rowStart + ',' + i)) positionsList.push(rowStart + ',' + i);
+      }
+    }
+    if (randomAlignment === 'vertical') {
+      let rowStartNumber = rows.indexOf(rowStart);
+      let rowEndNumber = rows.indexOf(rowEnd);
+
+      if (rowStartNumber > rowEndNumber) {
+        let rowStart = rowStartNumber;
+
+        rowStartNumber = rowEndNumber;
+        rowEndNumber   = rowStart;
+      }
+
+      for (let i = rowStartNumber; i <= rowEndNumber; i++) {
+        if (availablePositions.includes(rows[i] + ',' + columnStart)) positionsList.push(rows[i] + ',' + columnStart);
       }
     }
 
@@ -176,16 +188,19 @@ const InitModule = (() => {
   };
 
 
-  let shipHasBeenShinked = (position) => {
+  let shipHasBeenSinked = (position) => {
     return ships.some(ship => ship.size === ship.hitCount && ship.position.includes(position));
   };
 
   let saveShipPosition = (ship) => {
-    const randomRow = rows[getRandomNumber()];
-    const randomColumn = columns[getRandomNumber()];
-    const randomPosition = randomRow + ',' + randomColumn;
-    const fullPosition = randomPosition + ':' + randomRow + ',' + (randomColumn + ship.size - 1);
-    const positionsList = lookIfAllPositionsAreAvailable(fullPosition);
+    const randomRow       = rows[getRandomNumber(10)];
+    const randomColumn    = columns[getRandomNumber(10)];
+    const randomAlignment = alignments[getRandomNumber(3)];
+    const startPosition = randomRow + ',' + randomColumn;
+    const endPosition   = (randomAlignment === 'horizontal') ? randomRow + ',' + (randomColumn + ship.size - 1) : rows[getRandomNumber(10 + ship.size - 1)] + ',' + randomColumn;
+    const fullPosition  = startPosition + ':' + endPosition;
+
+    const positionsList = lookIfAllPositionsAreAvailable(fullPosition, randomAlignment);
 
     if (positionsList.length === ship.size) {
       ship.position = fullPosition;
