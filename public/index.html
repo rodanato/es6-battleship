@@ -1,177 +1,53 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Santex Test - Battleship</title>
-  <link href="./assets/css/styles.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-  <div id="layer" class="config-layer"></div>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
 
-  <div class="config-layer config" id="config">
-    <p>
-      Please choose an option
-    </p>
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
 
-    <button class="config__button" id="easy">Easy</button>
-    <button class="config__button" id="medium">Medium</button>
-    <button class="config__button" id="hard">Hard</button>
-  </div>
+    <div id="layer" class="config-layer"></div>
 
-  <main id="battleship">
-    <table class="table-columns" border="1">
-      <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-        <td>8</td>
-        <td>9</td>
-        <td>10</td>
-      </tr>
-    </table>
+    <div class="config-layer config" id="config">
+      <p>
+        Please choose an option
+      </p>
 
-    <table class="table">
-      <tr><td>A</td></tr>
-      <tr><td>B</td></tr>
-      <tr><td>C</td></tr>
-      <tr><td>D</td></tr>
-      <tr><td>E</td></tr>
-      <tr><td>F</td></tr>
-      <tr><td>G</td></tr>
-      <tr><td>H</td></tr>
-      <tr><td>I</td></tr>
-      <tr><td>J</td></tr>
-    </table>
+      <button class="config__button" id="easy">Easy</button>
+      <button class="config__button" id="medium">Medium</button>
+      <button class="config__button" id="hard">Hard</button>
+    </div>
 
-    <table class="grid table"
-           border="1">
-      <tr data-row="A">
-        <td data-column="1"></td>
-        <td data-column="2"></td>
-        <td data-column="3"></td>
-        <td data-column="4"></td>
-        <td data-column="5"></td>
-        <td data-column="6"></td>
-        <td data-column="7"></td>
-        <td data-column="8"></td>
-        <td data-column="9"></td>
-        <td data-column="10"></td>
-      </tr>
-      <tr data-row="B">
-        <td data-column="1"></td>
-        <td data-column="2"></td>
-        <td data-column="3"></td>
-        <td data-column="4"></td>
-        <td data-column="5"></td>
-        <td data-column="6"></td>
-        <td data-column="7"></td>
-        <td data-column="8"></td>
-        <td data-column="9"></td>
-        <td data-column="10"></td>
-      </tr>
-      <tr data-row="C">
-        <td data-column="1"></td>
-        <td data-column="2"></td>
-        <td data-column="3"></td>
-        <td data-column="4"></td>
-        <td data-column="5"></td>
-        <td data-column="6"></td>
-        <td data-column="7"></td>
-        <td data-column="8"></td>
-        <td data-column="9"></td>
-        <td data-column="10"></td>
-      </tr>
-      <tr data-row="D">
-        <td data-column="1"></td>
-        <td data-column="2"></td>
-        <td data-column="3"></td>
-        <td data-column="4"></td>
-        <td data-column="5"></td>
-        <td data-column="6"></td>
-        <td data-column="7"></td>
-        <td data-column="8"></td>
-        <td data-column="9"></td>
-        <td data-column="10"></td>
-      </tr>
-      <tr data-row="E">
-        <td data-column="1"></td>
-        <td data-column="2"></td>
-        <td data-column="3"></td>
-        <td data-column="4"></td>
-        <td data-column="5"></td>
-        <td data-column="6"></td>
-        <td data-column="7"></td>
-        <td data-column="8"></td>
-        <td data-column="9"></td>
-        <td data-column="10"></td>
-      </tr>
-      <tr data-row="F">
-        <td data-column="1"></td>
-        <td data-column="2"></td>
-        <td data-column="3"></td>
-        <td data-column="4"></td>
-        <td data-column="5"></td>
-        <td data-column="6"></td>
-        <td data-column="7"></td>
-        <td data-column="8"></td>
-        <td data-column="9"></td>
-        <td data-column="10"></td>
-      </tr>
-      <tr data-row="G">
-        <td data-column="1"></td>
-        <td data-column="2"></td>
-        <td data-column="3"></td>
-        <td data-column="4"></td>
-        <td data-column="5"></td>
-        <td data-column="6"></td>
-        <td data-column="7"></td>
-        <td data-column="8"></td>
-        <td data-column="9"></td>
-        <td data-column="10"></td>
-      </tr>
-      <tr data-row="H">
-        <td data-column="1"></td>
-        <td data-column="2"></td>
-        <td data-column="3"></td>
-        <td data-column="4"></td>
-        <td data-column="5"></td>
-        <td data-column="6"></td>
-        <td data-column="7"></td>
-        <td data-column="8"></td>
-        <td data-column="9"></td>
-        <td data-column="10"></td>
-      </tr>
-      <tr data-row="I">
-        <td data-column="1"></td>
-        <td data-column="2"></td>
-        <td data-column="3"></td>
-        <td data-column="4"></td>
-        <td data-column="5"></td>
-        <td data-column="6"></td>
-        <td data-column="7"></td>
-        <td data-column="8"></td>
-        <td data-column="9"></td>
-        <td data-column="10"></td>
-      </tr>
-      <tr data-row="J">
-        <td data-column="1"></td>
-        <td data-column="2"></td>
-        <td data-column="3"></td>
-        <td data-column="4"></td>
-        <td data-column="5"></td>
-        <td data-column="6"></td>
-        <td data-column="7"></td>
-        <td data-column="8"></td>
-        <td data-column="9"></td>
-        <td data-column="10"></td>
-      </tr>
-    </table>
-  </main>
+    <div id="battleship"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
-  <script src="./assets/js/bundle.js"></script>
-</body>
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
 </html>
