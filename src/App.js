@@ -9,7 +9,7 @@ class App extends Component {
   modes = {
     easy  : Infinity,
     medium: 100,
-    hard  : 5
+    hard  : 50
   };
   counter = 0;
 
